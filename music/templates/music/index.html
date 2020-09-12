@@ -1,28 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-   <h1>This is Something Form Music Index Page</h1>
-   {%if all_albums %}
-   <ul>
-       {% for album in all_albums %}
-       <li>
-<!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
-<!--          so to do that we are using the name variable of that url pattern -->
-           <a href="{% url 'music:detail' album.id %}">
-               {{ album.album_title }}
-           </a>
-       </li>
-       {%endfor%}
-   </ul>
-   {% else %}
-    <h3>You Don't Have Any Album Yet</h3>
-   {% endif %}
-</body>
-</html>
+{% extends 'music/basic.html' %}
+{% block title %}<title>Start</title>{% endblock %}
+{% block body %}
+{%if all_albums %}
+<ul>
+    {% for album in all_albums %}
+    <li>
+        <!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
+        <!--          so to do that we are using the name variable of that url pattern -->
+        <a href="{% url 'music:detail' album.id %}">
+            {{ album.album_title }}
+        </a>
+    </li>
+    {%endfor%}
+</ul>
+{% else %}
+<h3>You Don't Have Any Album Yet</h3>
+{% endif %}
+{% endblock %}
