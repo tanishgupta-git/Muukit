@@ -1,19 +1,22 @@
 {% extends 'music/basic.html' %}
 {% block title %}<title>Start</title>{% endblock %}
 {% block body %}
-{%if all_albums %}
-<ul>
-    {% for album in all_albums %}
-    <li>
-        <!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
-        <!--          so to do that we are using the name variable of that url pattern -->
-        <a href="{% url 'music:detail' album.id %}">
-            {{ album.album_title }}
-        </a>
-    </li>
-    {%endfor%}
-</ul>
-{% else %}
-<h3>You Don't Have Any Album Yet</h3>
-{% endif %}
+
+<div class="row m-4">
+{% for album in object_list %}
+<!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
+<!--          so to do that we are using the name variable of that url pattern -->
+
+<div class="card col-md-4 mx-4">
+    <img class="card-img-top" src="{{album.album_logo}}" alt="Card image cap">
+    <div class="card-body">
+        <h3 class="card-title">{{ album.album_title }}</h3>
+        <p class="card-text">{{album.artist}}</p>
+        <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View Details</a>
+        <button type="button" class="btn btn-outline-secondary"><i class="far fa-trash-alt"></i></button>
+        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
+    </div>
+</div>
+{%endfor%}
+</div>
 {% endblock %}
