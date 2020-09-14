@@ -6,7 +6,7 @@
     <!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
     <!--          so to do that we are using the name variable of that url pattern -->
     <div class="card col-md-4 mx-4">
-        <img class="card-img-top" src="{{album.album_logo}}" alt="Card image cap">
+        <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
         <div class="card-body">
             <h3 class="card-title">{{ album.album_title }}</h3>
             <p class="card-text">{{album.artist}}</p>
