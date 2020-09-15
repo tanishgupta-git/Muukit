@@ -4,33 +4,49 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
-from .models import Album
+from .models import Album,Song
 from .forms import UserForm
+
 # Create your views here.
 class IndexView(generic.ListView):
     template_name = 'music/index.html'
-    # by default it will return the albums with object_list name but if you want to change than you can do like this
 
     def get_queryset(self):
         return Album.objects.all()
 
+# For Detail View Of Album
 class DetailView(generic.DetailView):
     model = Album
     template_name = 'music/detail.html'
 
-
+# For Album Create
 class AlbumCreate(CreateView):
     model = Album
     fields = ['artist','album_title','genre','album_logo']
 
+
+
+# For Adding Song
+class AddSong(CreateView):
+    model = Song
+    fields =  ['file_type','song_title','is_favorite']
+    def get(self,request):
+        specifAlbum = request.GET.get(pk)
+        
+        
+
+
+# For Album Update
 class AlbumUpdate(UpdateView):
     model = Album
     fields = ['artist','album_title','genre','album_logo']
 
+# For Album Delete
 class AlbumDelete(DeleteView):
     model = Album
     success_url = reverse_lazy('music:music')
 
+# For User Authentication
 class UserFormView(View):
     form_class = UserForm
     template_name = 'music/registration_form.html'

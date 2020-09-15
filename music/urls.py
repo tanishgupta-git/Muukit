@@ -7,5 +7,6 @@ urlpatterns = [
     path('<int:pk>/', views.DetailView.as_view(), name="detail"),
     path('album/add', views.AlbumCreate.as_view(), name='album-add'),
     path('album/<int:pk>/', views.AlbumUpdate.as_view(), name='album-update'),
+    path('<int:pk>/addsong/', views.AddSong.as_view(), name='add-song'),
     path('album/<int:pk>/delete', views.AlbumDelete.as_view(), name='album-delete')
 ]
