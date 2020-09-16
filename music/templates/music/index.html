@@ -2,7 +2,7 @@
 {% block title %}<title>Start</title>{% endblock %}
 {% block body %}
 <div class="row m-4">
-    {% for album in object_list %}
+    {% for album in albums %}
     <!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
     <!--          so to do that we are using the name variable of that url pattern -->
     <div class="card col-md-4 mx-4">

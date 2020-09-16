@@ -13,8 +13,8 @@
     </div>
     <div class="col-md-8">
         <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View All</a>
-        <a href="{% url 'music:add-song' album.id%}"class="btn btn-outline-primary">Add New Song</a>
-         {% if album.song_set.count %}
+        <a href="{% url 'music:add-song' album.id%}" class="btn btn-outline-primary">Add New Song</a>
+        {% if album.song_set.count %}
         <div class="row bg-white p-4 mt-3">
             <h2>All Songs</h2>
             <table class="table">
@@ -30,19 +30,19 @@
                     {% for song in album.song_set.all %}
                     <tr>
                         <td>{{song.song_title}}</td>
-                        <td scope="col"><button class="btn btn-success"><i class="fas fa-play"></i>&nbsp;  Play</button></td>
+                        <td scope="col"><button class="btn btn-success"><i class="fas fa-play"></i>&nbsp; Play</button></td>
                         <td scope="col">wait...</td>
-                        <td scope="col"><button class="btn btn-danger"><i class="fas fa-trash"></i>&nbsp;  Delete</button></td>
+                        <td scope="col"><button class="btn btn-danger"><i class="fas fa-trash"></i>&nbsp; Delete</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    {% else %}
-     <div class="row bg-white p-4 mt-3">
-         <h6>You have not added any song yet, to add a new song click the above button</h6>
-     </div>
-    {% endif %}
-     </div>
+        {% else %}
+        <div class="row bg-white p-4 mt-3">
+            <h6>You have not added any song yet, to add a new song click the above button</h6>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

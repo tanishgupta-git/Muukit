@@ -5,19 +5,22 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from .models import Album,Song
-from .forms import UserForm
-
+from .forms import UserForm , AlbumForm
+from django.shortcuts import render
+from django.http import HttpResponse
 # Create your views here.
-class IndexView(generic.ListView):
-    template_name = 'music/index.html'
+# request for index page
+def index(request):
+    albums = Album.objects.all()
 
-    def get_queryset(self):
-        return Album.objects.all()
+    return render(request,'music/index.html',{'albums':albums}) 
 
-# For Detail View Of Album
-class DetailView(generic.DetailView):
-    model = Album
-    template_name = 'music/detail.html'
+# request for detail page
+def detail(request,pk):
+    album = Album.objects.filter(id=pk)
+
+    return render(request,'music/detail.html',{'album':album[0]})
+
 
 # For Album Create
 class AlbumCreate(CreateView):
@@ -29,12 +32,7 @@ class AlbumCreate(CreateView):
 # For Adding Song
 class AddSong(CreateView):
     model = Song
-    fields =  ['file_type','song_title','is_favorite']
-    def get(self,request):
-        specifAlbum = request.GET.get(pk)
-        
-        
-
+    fields = ['file_type','song_title','is_favorite']
 
 # For Album Update
 class AlbumUpdate(UpdateView):
