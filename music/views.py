@@ -1,7 +1,6 @@
 from django.views import generic
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from .models import Album,Song
@@ -23,26 +22,38 @@ def detail(request,pk):
 
 
 # For Album Create
-class AlbumCreate(CreateView):
-    model = Album
-    fields = ['artist','album_title','genre','album_logo']
+def AlbumCreate(request):
+    form = AlbumForm(request.POST or None ,request.FILES or None)
 
+    if form.is_valid():
+        album = form.save()
+        return redirect('music:detail',pk=album.id)
 
+    return render(request,'music/album_form.html',{'form':form})
 
-# For Adding Song
-class AddSong(CreateView):
-    model = Song
-    fields = ['file_type','song_title','is_favorite']
 
 # For Album Update
-class AlbumUpdate(UpdateView):
-    model = Album
-    fields = ['artist','album_title','genre','album_logo']
+def AlbumUpdate(request,pk):
+    album = get_object_or_404(Album,id=pk)
+
+    form = AlbumForm(request.POST or None ,instance = album)
+     
+    if form.is_valid():
+        form.save()
+        return redirect('music:detail',pk=album.id)
+
+    return render(request, "music/album_form.html",{'form':form})
 
 # For Album Delete
-class AlbumDelete(DeleteView):
-    model = Album
-    success_url = reverse_lazy('music:music')
+def AlbumDelete(request,pk):
+    album = get_object_or_404(Album,id=pk)
+
+    if request.method == "POST":
+        album.delete()
+        return redirect('music:music')
+
+    return render(request, "music/album_delete_form.html")
+
 
 # For User Authentication
 class UserFormView(View):

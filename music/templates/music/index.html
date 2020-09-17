@@ -12,11 +12,8 @@
             <p class="card-text">{{album.artist}}</p>
             <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View Details</a>
             <!-- Delete button -->
-            <form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
-                {% csrf_token %}
-                <input type="hidden" name="album_id" value="{{album.id}}">
-                <button type="submit" class="btn btn-outline-secondary"><i class="far fa-trash-alt"></i></button>
-            </form>
+            <a href="{% url 'music:album-delete' album.id %}" class="btn btn-outline-secondary">
+                <i class="far fa-trash-alt"></i></a>
             <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
         </div>
     </div>
