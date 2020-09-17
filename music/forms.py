@@ -9,12 +9,12 @@ class AlbumForm(forms.ModelForm):
         model = Album
         fields = ['artist', 'album_title', 'genre', 'album_logo']
 
-
+        
 class SongForm(forms.ModelForm):
 
     class Meta:
         model = Song
-        fields = ['song_title','audio_file']
+        fields = ['song_title','audio_file','is_favorite']
 
 
 class UserForm(forms.ModelForm):

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from .models import Album,Song
-from .forms import UserForm , AlbumForm
+from .forms import UserForm , AlbumForm, SongForm
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
@@ -44,6 +44,8 @@ def AlbumUpdate(request,pk):
 
     return render(request, "music/album_form.html",{'form':form})
 
+
+
 # For Album Delete
 def AlbumDelete(request,pk):
     album = get_object_or_404(Album,id=pk)
@@ -53,6 +55,26 @@ def AlbumDelete(request,pk):
         return redirect('music:music')
 
     return render(request, "music/album_delete_form.html")
+
+
+
+# adding the song in album
+def AddSong(request,pk):
+    album = get_object_or_404(Album,id=pk)
+
+    form = SongForm(request.POST or None ,request.FILES or None)
+    if request.method == "POST":
+        if form.is_valid:
+            form_record = form.save(commit=False)
+            form_record.album = album
+            form.save()
+            return redirect('music:detail',pk=album.id) 
+    
+    return render(request,'music/song_form.html',{'form':form,'album':album})
+
+
+
+
 
 
 # For User Authentication
