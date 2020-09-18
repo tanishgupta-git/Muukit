@@ -31,8 +31,12 @@
                     <tr>
                         <td>{{song.song_title}}</td>
                         <td scope="col"><button class="btn btn-success"><i class="fas fa-play"></i>&nbsp; Play</button></td>
-                        <td scope="col">wait...</td>
-                        <td scope="col"><button class="btn btn-danger"><i class="fas fa-trash"></i>&nbsp; Delete</button></td>
+                        <td scope="col"><i class="fas fa-star"></i></td>
+                        <td scope="col">
+                            <form action="{% url 'music:delete-song' album.id song.song_title %}" method="GET">
+                                <button class="btn btn-danger" type="submit" value="Yes" name="delete"><i class="fas fa-trash"></i>&nbsp; Delete</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

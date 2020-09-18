@@ -72,7 +72,15 @@ def AddSong(request,pk):
     
     return render(request,'music/song_form.html',{'form':form,'album':album})
 
+# deleting the song from album
+def DeleteSong(request,pk,songTitle):
+    album = get_object_or_404(Album,id=pk)
+     
+    for song in album.song_set.all():
+        if song.song_title == songTitle:
+            song.delete()
 
+    return redirect("music:detail",pk=album.id)
 
 
 
