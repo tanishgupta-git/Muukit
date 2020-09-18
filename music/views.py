@@ -26,6 +26,11 @@ def AlbumCreate(request):
     form = AlbumForm(request.POST or None ,request.FILES or None)
 
     if form.is_valid():
+        for prevalbum in Album.objects.all():
+            album = form.save(commit=False)
+            if prevalbum.album_title == album.album_title:
+               return HttpResponse("There is already a album exisitng with this album title") 
+
         album = form.save()
         return redirect('music:detail',pk=album.id)
 
@@ -39,6 +44,11 @@ def AlbumUpdate(request,pk):
     form = AlbumForm(request.POST or None ,instance = album)
      
     if form.is_valid():
+        for prevalbum in Album.objects.all():
+            album = form.save(commit=False)
+            if prevalbum.album_title == album.album_title:
+               return HttpResponse("There is already a album exisitng with this album title") 
+
         form.save()
         return redirect('music:detail',pk=album.id)
 
@@ -66,6 +76,10 @@ def AddSong(request,pk):
     if request.method == "POST":
         if form.is_valid:
             form_record = form.save(commit=False)
+            for prevsong in album.song_set.all():
+                if prevsong.song_title == form_record.song_title:
+                    return HttpResponse("There is already a song exisitng with this song title")
+
             form_record.album = album
             form.save()
             return redirect('music:detail',pk=album.id) 

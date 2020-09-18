@@ -1,22 +1,31 @@
 {% extends 'music/basic.html' %}
 {% block title %}<title>Start</title>{% endblock %}
 {% block body %}
-<div class="row m-4">
-    {% for album in albums %}
-    <!--           instead  of using hardcordedurls we are using dynamic url so that in future if we change than it will be easier for us-->
-    <!--          so to do that we are using the name variable of that url pattern -->
-    <div class="card col-md-4 mx-4">
-        <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
-        <div class="card-body">
-            <h3 class="card-title">{{ album.album_title }}</h3>
-            <p class="card-text">{{album.artist}}</p>
-            <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View Details</a>
-            <!-- Delete button -->
-            <a href="{% url 'music:album-delete' album.id %}" class="btn btn-outline-secondary">
-                <i class="far fa-trash-alt"></i></a>
-            <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
+{% for album in albums %}
+
+
+        {% if forloop.first %}
+            <div class="row my-4 d-flex justify-content-around">
+        {% endif %}
+
+        <div class="card col-md-4">
+            <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h3 class="card-title">{{ album.album_title }}</h3>
+                <p class="card-text">{{album.artist}}</p>
+                <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View Details</a>
+                <!-- Delete button -->
+                <a href="{% url 'music:album-delete' album.id %}" class="btn btn-outline-secondary">
+                    <i class="far fa-trash-alt"></i></a>
+                <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
+            </div>
         </div>
-    </div>
-    {%endfor%}
-</div>
+         {% if forloop.counter|divisibleby:2%}
+           </div>
+           {% if not forloop.last %} 
+          <div class="row my-4 d-flex justify-content-around">
+            {%endif%}
+         {%endif%}
+{%endfor%}
+
 {% endblock %}
