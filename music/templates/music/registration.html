@@ -1,0 +1,11 @@
+{% extends 'music/basic.html' %}
+{% block title %}<title>Registration</title>{% endblock %}
+{% block body %}
+<h1>Registration page for new users</h1>
+<form method="POST" action="">
+{% csrf_token %}
+     {% include 'music/form-template.html' %}
+<input type="submit" name="Create User">
+</form>
+{{ form.errors }}
+{% endblock %}

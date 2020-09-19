@@ -3,7 +3,9 @@ from . import views
 app_name = 'music'
 urlpatterns = [
     path('', views.index, name='music'),
-    path('register/', views.UserFormView.as_view(), name='register'),
+    path('register/', views.UserRegister, name='register'),
+    path('login/',views.UserLogin,name='login'),
+    path('login/',views.Userlogout,name='logout'),
     path('<int:pk>/', views.detail, name="detail"),
     path('album/add', views.AlbumCreate, name='album-add'),
     path('album/<int:pk>/', views.AlbumUpdate, name='album-update'),

@@ -1,27 +1,91 @@
 from django.views import generic
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect , get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.views.generic import View
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth import authenticate, login,logout
+
 from .models import Album,Song
-from .forms import UserForm , AlbumForm, SongForm
+from .forms import CreateUserForm, AlbumForm, SongForm
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib import messages
+
+# import for restricting user to view some page
+from django.contrib.auth.decorators import login_required
+
+
+
 # Create your views here.
+
+
+
+# For Login Form Page
+def UserLogin(request):
+    if request.user.is_authenticated:
+        return redirect('music:music')
+    else:       
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user  = authenticate(request,username=username,password=password)
+
+            if user is not None:
+                login(request,user)
+                return redirect('music:music')
+            else:
+                messages.info(request,'Username or Password is incorrect')
+
+        context = {} 
+        return render(request,'music/login.html',context)
+
+
+#  Logout function
+def Userlogout(request):
+    logout(request)
+    return redirect('music:login')
+
+
+
+# For User Authentication
+def UserRegister(request):
+    if request.user.is_authenticated:
+        return redirect('music:music')
+    else:
+        form = CreateUserForm()
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request,"Account was created successfully " + user )
+                return redirect('music:login')
+
+        context = {'form':form}
+        return render(request,'music/registration.html',context)
+
+
 # request for index page
+@login_required(login_url='music:login')
 def index(request):
     albums = Album.objects.all()
 
     return render(request,'music/index.html',{'albums':albums}) 
 
+
+
 # request for detail page
+@login_required(login_url='music:login')
 def detail(request,pk):
     album = Album.objects.filter(id=pk)
 
     return render(request,'music/detail.html',{'album':album[0]})
 
 
+
+
 # For Album Create
+@login_required(login_url='music:login')
 def AlbumCreate(request):
     form = AlbumForm(request.POST or None ,request.FILES or None)
 
@@ -37,7 +101,10 @@ def AlbumCreate(request):
     return render(request,'music/album_form.html',{'form':form})
 
 
+
+
 # For Album Update
+@login_required(login_url='music:login')
 def AlbumUpdate(request,pk):
     album = get_object_or_404(Album,id=pk)
 
@@ -56,7 +123,9 @@ def AlbumUpdate(request,pk):
 
 
 
+
 # For Album Delete
+@login_required(login_url='music:login')
 def AlbumDelete(request,pk):
     album = get_object_or_404(Album,id=pk)
 
@@ -68,13 +137,15 @@ def AlbumDelete(request,pk):
 
 
 
+
 # adding the song in album
+@login_required(login_url='music:login')
 def AddSong(request,pk):
     album = get_object_or_404(Album,id=pk)
 
     form = SongForm(request.POST or None ,request.FILES or None)
     if request.method == "POST":
-        if form.is_valid:
+        if form.is_valid():
             form_record = form.save(commit=False)
             for prevsong in album.song_set.all():
                 if prevsong.song_title == form_record.song_title:
@@ -86,7 +157,10 @@ def AddSong(request,pk):
     
     return render(request,'music/song_form.html',{'form':form,'album':album})
 
+
+
 # deleting the song from album
+@login_required(login_url='music:login')
 def DeleteSong(request,pk,songTitle):
     album = get_object_or_404(Album,id=pk)
      
@@ -95,50 +169,5 @@ def DeleteSong(request,pk,songTitle):
             song.delete()
 
     return redirect("music:detail",pk=album.id)
-
-
-
-
-# For User Authentication
-class UserFormView(View):
-    form_class = UserForm
-    template_name = 'music/registration_form.html'
-
-    # display blank area
-    def get(self,request):
-        form = self.form_class(None)
-        return render(request,self.template_name,{'form':form})
-    # process form data
-    def post(self,request):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            user = form.save(commit=False)
-
-            # cleaned (normalized data)
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user.set_password(password)
-            user.save()
-
-            # return User objects if credentials are correct
-            user = authenticate(username=username,password=password)
-            
-            if user is not None:
-
-                if user.is_active:
-
-                    login(request,user)
-                    return redirect('music:music')
-
-        return render(request, self.template_name, {'form':form})
-
-
-
-
-
-
-
-
 
 
