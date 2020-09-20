@@ -8,7 +8,7 @@
             <div class="row my-4 d-flex justify-content-around">
         {% endif %}
 
-        <div class="card col-md-4">
+        <div class="card col-md-3">
             <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title">{{ album.album_title }}</h3>
@@ -20,7 +20,7 @@
                 <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
             </div>
         </div>
-         {% if forloop.counter|divisibleby:2%}
+         {% if forloop.counter|divisibleby:3%}
            </div>
            {% if not forloop.last %} 
           <div class="row my-4 d-flex justify-content-around">

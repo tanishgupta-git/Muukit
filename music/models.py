@@ -1,7 +1,8 @@
 from django.db import models
-from django.urls import reverse
-# Create your models here.
+from django.contrib.auth.models import Permission, User
+
 class Album(models.Model):
+    user = models.ForeignKey(User,default=1,on_delete=models.CASCADE)
     artist = models.CharField(max_length=250)
     album_title = models.CharField(max_length=500)
     genre = models.CharField(max_length=100)
@@ -11,9 +12,9 @@ class Album(models.Model):
         return self.album_title + ' - ' + self.artist
 
 class Song(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    audio_file = models.FileField(upload_to='music/songs',default='')
-    song_title = models.CharField(max_length=250)
+    album       = models.ForeignKey(Album, on_delete=models.CASCADE)
+    audio_file  = models.FileField(upload_to='music/songs',default='')
+    song_title  = models.CharField(max_length=250)
     is_favorite = models.BooleanField(default=False)
 
     def __str__(self):

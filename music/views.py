@@ -41,7 +41,7 @@ def UserLogin(request):
 
 
 #  Logout function
-def Userlogout(request):
+def UserLogout(request):
     logout(request)
     return redirect('music:login')
 
@@ -68,8 +68,7 @@ def UserRegister(request):
 # request for index page
 @login_required(login_url='music:login')
 def index(request):
-    albums = Album.objects.all()
-
+    albums = Album.objects.filter(user=request.user)
     return render(request,'music/index.html',{'albums':albums}) 
 
 
@@ -77,9 +76,9 @@ def index(request):
 # request for detail page
 @login_required(login_url='music:login')
 def detail(request,pk):
-    album = Album.objects.filter(id=pk)
-
-    return render(request,'music/detail.html',{'album':album[0]})
+        user = request.user
+        album = get_object_or_404(Album, pk=pk)
+        return render(request,'music/detail.html',{'album':album})
 
 
 
@@ -90,17 +89,16 @@ def AlbumCreate(request):
     form = AlbumForm(request.POST or None ,request.FILES or None)
 
     if form.is_valid():
+        album = form.save(commit=False)
         for prevalbum in Album.objects.all():
-            album = form.save(commit=False)
             if prevalbum.album_title == album.album_title:
-               return HttpResponse("There is already a album exisitng with this album title") 
-
+               return HttpResponse("There is already a album exisitng with this album title")
+        album.user = request.user
         album = form.save()
+
         return redirect('music:detail',pk=album.id)
 
     return render(request,'music/album_form.html',{'form':form})
-
-
 
 
 # For Album Update
