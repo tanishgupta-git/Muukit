@@ -1,11 +1,54 @@
-{% extends 'music/basic.html' %}
-{% block title %}<title>Registration</title>{% endblock %}
+{% extends 'music/base_start.html' %}
+{% block title %}Registration{% endblock %}
 {% block body %}
-<h1>Registration page for new users</h1>
-<form method="POST" action="">
-{% csrf_token %}
-     {% include 'music/form-template.html' %}
-<input type="submit" name="Create User">
-</form>
-{{ form.errors }}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="">
+            <div class="d-flex justify-content-center">
+                <h1 id="form-title">Create Your Account</h2>
+            </div>
+            <div class="d-flex justify-conten
+                t-center">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="username" placeholder="Username..." class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" name="email" placeholder="Email..." class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="password1" placeholder="Password..." class="form-control">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-check-square"></i></span>
+                        </div>
+                        <input type="password" name="password2" placeholder="Confirm Password..." class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-3">
+                        <input class="btn btn-primary btn-block" type="submit" value="Create Account">
+                    </div>
+                </form>
+                {{ form.errors }}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <form method="POST" action="">
+    {% csrf_token %}
+    {% include 'music/form-template.html' %}
+    <input type="submit" name="Create User">
+</form> -->
 {% endblock %}

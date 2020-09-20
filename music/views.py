@@ -12,9 +12,6 @@ from django.contrib import messages
 
 # import for restricting user to view some page
 from django.contrib.auth.decorators import login_required
-
-
-
 # Create your views here.
 
 
@@ -99,6 +96,8 @@ def AlbumCreate(request):
         return redirect('music:detail',pk=album.id)
 
     return render(request,'music/album_form.html',{'form':form})
+
+
 
 
 # For Album Update
