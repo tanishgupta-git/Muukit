@@ -5,3 +5,9 @@ html,body{
 .navbar-brand{
 	font-family: 'Satisfy',cursive;
 }
+.fa-star{
+	color: #aaaaaa;
+}
+.fa-star.active{
+color:#ffa931;
+}

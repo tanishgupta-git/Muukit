@@ -167,4 +167,24 @@ def DeleteSong(request,pk,songTitle):
 
     return redirect("music:detail",pk=album.id)
 
+# Add To Favorite Songs
+@login_required(login_url='music:login')
+def Favorite(request,pk,songTitle):
+    album = get_object_or_404(Album,id=pk)
 
+    for song in album.song_set.all():
+        if song.song_title == songTitle:
+            song.is_favorite = not(song.is_favorite)
+            song.save()
+
+    return redirect("music:detail",pk=album.id)
+
+# Add To Favorite Album
+@login_required(login_url='music:login')
+def FavoriteAlbum(request,pk):
+    album = get_object_or_404(Album,id=pk)
+
+    album.is_favorite = not(album.is_favorite)
+    album.save()
+
+    return redirect("music:music")

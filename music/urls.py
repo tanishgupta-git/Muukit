@@ -11,5 +11,7 @@ urlpatterns = [
     path('album/<int:pk>/', views.AlbumUpdate, name='album-update'),
     path('album/<int:pk>/delete', views.AlbumDelete, name='album-delete'),
     path('album/<int:pk>/addsong', views.AddSong, name='add-song'),
-    path('album/<int:pk>/delete/<songTitle>', views.DeleteSong, name='delete-song')
+    path('album/<int:pk>/delete/<songTitle>', views.DeleteSong, name='delete-song'),
+    path('album/<int:pk>/<songTitle>/favorite', views.Favorite, name='favorite'),
+    path('album/<int:pk>/favorite',views.FavoriteAlbum,name='favorite-album')
 ] 

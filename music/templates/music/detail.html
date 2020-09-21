@@ -31,7 +31,8 @@
                     <tr>
                         <td>{{song.song_title}}</td>
                         <td scope="col"><button class="btn btn-success"><i class="fas fa-play"></i>&nbsp; Play</button></td>
-                        <td scope="col"><i class="fas fa-star"></i></td>
+                        <td scope="col"><a href="{% url 'music:favorite' album.id song.song_title %}"><i class="fas fa-star {% if song.is_favorite %}active{% endif %}"></i></a></td>
+
                         <td scope="col">
                             <form action="{% url 'music:delete-song' album.id song.song_title %}" method="GET">
                                 <button class="btn btn-danger" type="submit" value="Yes" name="delete"><i class="fas fa-trash"></i>&nbsp; Delete</button>
@@ -41,6 +42,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
         {% else %}
         <div class="row bg-white p-4 mt-3">

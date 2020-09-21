@@ -17,7 +17,8 @@
                 <!-- Delete button -->
                 <a href="{% url 'music:album-delete' album.id %}" class="btn btn-outline-secondary">
                     <i class="far fa-trash-alt"></i></a>
-                <button type="button" class="btn btn-outline-secondary"><i class="fas fa-star"></i></button>
+
+                <a href="{% url 'music:favorite-album' album.id%}" class="btn btn-outline-secondary"><i class="fas fa-star {% if album.is_favorite %}active{% endif %}"></i></a>
             </div>
         </div>
          {% if forloop.counter|divisibleby:3%}
