@@ -167,6 +167,7 @@ def DeleteSong(request,pk,songTitle):
 
     return redirect("music:detail",pk=album.id)
 
+
 # Add To Favorite Songs
 @login_required(login_url='music:login')
 def Favorite(request,pk,songTitle):
@@ -179,6 +180,7 @@ def Favorite(request,pk,songTitle):
 
     return redirect("music:detail",pk=album.id)
 
+
 # Add To Favorite Album
 @login_required(login_url='music:login')
 def FavoriteAlbum(request,pk):
@@ -188,3 +190,23 @@ def FavoriteAlbum(request,pk):
     album.save()
 
     return redirect("music:music")
+
+
+# All the song in user album 
+@login_required(login_url='music:login')
+def Songs(request,userpreference):
+     albums = Album.objects.filter(user=request.user)
+     
+     songList = []
+
+     if(userpreference == 'favorite'):
+         for album in albums:
+            for song in album.song_set.all():
+                if(song.is_favorite):
+                    songList.append(song)
+     else:
+        for album in albums:
+            for song in album.song_set.all():
+                songList.append(song)
+
+     return render(request,'music/songs.html',{'songList':songList})
