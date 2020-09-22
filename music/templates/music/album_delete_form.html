@@ -3,12 +3,14 @@
 {% block body %}
 <div class="main">
     <!-- Create a Form -->
+    <div class="jumbotron mt-4 d-flex justifu-content-center">
     <form method="POST">
         <!-- Security token by Django -->
         {% csrf_token %}
-        Are you want to delete this item ?
-        <input type="submit" value="Yes" />
-        <a href="{% url 'music:music'%}">Cancel </a>
+        <p>Are you Sure that you want to delete this item ? It will delete all the song associated to this album</p>
+        <input type="submit" value="Yes I'm Sure" class='btn btn-danger'>
+        <a href="{% url 'music:music'%}" class="btn btn-warning">Cancel </a>
     </form>
+</div>
 </div>
 {% endblock %}
