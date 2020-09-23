@@ -61,13 +61,33 @@ def UserRegister(request):
         context = {'form':form}
         return render(request,'music/registration.html',context)
 
+#Function for searching the user query 
+def searchAlbum(query,album):
+    if query.lower() in album.album_title.lower():
+        return True
+    return False
 
 # request for index page
 @login_required(login_url='music:login')
 def index(request):
     albums = Album.objects.filter(user=request.user)
-    return render(request,'music/index.html',{'albums':albums}) 
+    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True})
 
+# Search page 
+@login_required(login_url='music:login')
+def search(request):
+    search = request.GET.get('search')
+    albums = Album.objects.filter(user=request.user)
+    searchalbums = []
+    for album in albums:
+        if searchAlbum(search,album):
+            searchalbums.append(album)
+
+    if not(len(searchalbums)):
+        msg = "Your search doesn't appear please use valid album name"
+        return render(request,'music/index.html',{'msg':msg,'searchAlbum':True})
+
+    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True}) 
 
 
 # request for detail page

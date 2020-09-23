@@ -1,8 +1,8 @@
 {% extends 'music/basic.html' %}
 {% block title %}<title>Start</title>{% endblock %}
 {% block body %}
+<h2>{{msg}}</h2>
 {% for album in albums %}
-
 
         {% if forloop.first %}
             <div class="row my-4 d-flex justify-content-around">
@@ -27,6 +27,7 @@
           <div class="row my-4 d-flex justify-content-around">
             {%endif%}
          {%endif%}
+
 {%endfor%}
 
 {% endblock %}
