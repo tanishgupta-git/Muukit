@@ -1,7 +1,19 @@
 {% extends 'music/basic.html' %}
 {% block title %}<title>Start</title>{% endblock %}
 {% block body %}
-<h2>{{msg}}</h2>
+<!-- For user search query if not found -->
+{% if msg %}
+<div class="container jumbotron mt-4">
+   <h2>Your Collection Doesn't Match For "{{search}}"</h2>
+   <ul class="list-group mt-4">
+  <li class="list-group-item">Try Alternate Words</li>
+  <li class="list-group-item">Check Your Spelling</li>
+  <li class="list-group-item">Use More Generic Words</li>
+  </ul>
+</div>
+{% endif %}
+<!-- end  -->
+
 {% for album in albums %}
 
         {% if forloop.first %}

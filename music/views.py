@@ -62,9 +62,15 @@ def UserRegister(request):
         return render(request,'music/registration.html',context)
 
 #Function for searching the user query 
-def searchAlbum(query,album):
-    if query.lower() in album.album_title.lower():
+def searchQuery(query,album):
+    # for checking album info
+    if query.lower() in album.album_title.lower() or query.lower() in album.artist.lower() or query.lower() in album.genre.lower():
         return True
+    # for checking song info
+    for song in album.song_set.all():
+        if query in song.song_title:
+            return True
+    # if not matches
     return False
 
 # request for index page
@@ -80,12 +86,11 @@ def search(request):
     albums = Album.objects.filter(user=request.user)
     searchalbums = []
     for album in albums:
-        if searchAlbum(search,album):
+        if searchQuery(search,album):
             searchalbums.append(album)
 
     if not(len(searchalbums)):
-        msg = "Your search doesn't appear please use valid album name"
-        return render(request,'music/index.html',{'msg':msg,'searchAlbum':True})
+        return render(request,'music/index.html',{'msg':True,'searchAlbum':True,'search':search})
 
     return render(request,'music/index.html',{'albums':albums,'searchAlbum':True}) 
 
@@ -190,15 +195,17 @@ def DeleteSong(request,pk,songTitle):
 
 # Add To Favorite Songs
 @login_required(login_url='music:login')
-def Favorite(request,pk,songTitle):
+def Favorite(request,pk,songTitle,page):
     album = get_object_or_404(Album,id=pk)
 
     for song in album.song_set.all():
         if song.song_title == songTitle:
             song.is_favorite = not(song.is_favorite)
             song.save()
-
-    return redirect("music:detail",pk=album.id)
+    if (page == 'songs'):
+       return redirect("music:songs",userpreference ='all')
+    else:
+        return redirect("music:detail",pk=album.id)
 
 
 # Add To Favorite Album
