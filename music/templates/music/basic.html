@@ -22,12 +22,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-2">
-                <li class="nav-item active mr-2">
+                <li class="nav-item mr-2 {% if homeactive %}active{% endif %}">
                     <a class="nav-link" href="/music">
                         <i class="fas fa-compact-disc"></i>&nbsp;
                         Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item mr-2">
+                <li class="nav-item mr-2 {% if musicactive %}active{% endif %}">
                     <a class="nav-link" href="{% url 'music:songs' 'all' %}"><i class="fas fa-music"></i>&nbsp; Music</a>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
             {% endif %}
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item mr-2">
+                <li class="nav-item mr-2 {% if addalbumactive %}active{% endif %}">
                     <a class="nav-link" href="{% url 'music:album-add' %}">
                         <i class="fas fa-plus"></i>&nbsp; Add Album</a>
                 </li>

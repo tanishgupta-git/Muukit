@@ -13,8 +13,7 @@ from django.contrib import messages
 # import for restricting user to view some page
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-
-
+IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
 # For Login Form Page
 def UserLogin(request):
@@ -61,6 +60,7 @@ def UserRegister(request):
         context = {'form':form}
         return render(request,'music/registration.html',context)
 
+
 #Function for searching the user query 
 def searchQuery(query,album):
     # for checking album info
@@ -73,11 +73,13 @@ def searchQuery(query,album):
     # if not matches
     return False
 
+
 # request for index page
 @login_required(login_url='music:login')
 def index(request):
     albums = Album.objects.filter(user=request.user)
-    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True})
+    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True,'homeactive':True})
+
 
 # Search page 
 @login_required(login_url='music:login')
@@ -90,9 +92,9 @@ def search(request):
             searchalbums.append(album)
 
     if not(len(searchalbums)):
-        return render(request,'music/index.html',{'msg':True,'searchAlbum':True,'search':search})
+        return render(request,'music/index.html',{'msg':True,'searchAlbum':True,'search':search,'homeactive':True})
 
-    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True}) 
+    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True,'homeactive':True}) 
 
 
 # request for detail page
@@ -120,7 +122,7 @@ def AlbumCreate(request):
 
         return redirect('music:detail',pk=album.id)
 
-    return render(request,'music/album_form.html',{'form':form})
+    return render(request,'music/album_form.html',{'form':form,'addalbumactive':True})
 
 
 
@@ -236,4 +238,4 @@ def Songs(request,userpreference):
             for song in album.song_set.all():
                 songList.append(song)
 
-     return render(request,'music/songs.html',{'songList':songList})
+     return render(request,'music/songs.html',{'songList':songList,'musicactive':True})
