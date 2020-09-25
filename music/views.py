@@ -13,7 +13,11 @@ from django.contrib import messages
 # import for restricting user to view some page
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+# File type defined for users
+AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
+
 
 # For Login Form Page
 def UserLogin(request):
@@ -117,6 +121,13 @@ def AlbumCreate(request):
         for prevalbum in Album.objects.all():
             if prevalbum.album_title == album.album_title:
                return HttpResponse("There is already a album exisitng with this album title")
+
+        #Restricting user to upload only three types of file 
+        file_type = album.album_logo.url.split('.')[-1]
+        file_type = file_type.lower()
+        if file_type not in IMAGE_FILE_TYPES:
+            return HttpResponse("Image file must be PNG,JPG, or JPEG")
+  
         album.user = request.user
         album = form.save()
 
@@ -138,7 +149,13 @@ def AlbumUpdate(request,pk):
         for prevalbum in Album.objects.all():
             album = form.save(commit=False)
             if prevalbum.album_title == album.album_title:
-               return HttpResponse("There is already a album exisitng with this album title") 
+               return HttpResponse("There is already a album exisitng with this album title")
+
+        #Restricting user to upload only three types of file 
+        file_type = album.album_logo.url.split('.')[-1]
+        file_type = file_type.lower()
+        if file_type not in IMAGE_FILE_TYPES:
+            return HttpResponse("Image file must be PNG,JPG, or JPEG") 
 
         form.save()
         return redirect('music:detail',pk=album.id)
@@ -174,6 +191,11 @@ def AddSong(request,pk):
             for prevsong in album.song_set.all():
                 if prevsong.song_title == form_record.song_title:
                     return HttpResponse("There is already a song exisitng with this song title")
+
+        file_type = song.audio_file.url.split('.')[-1]
+        file_type = file_type.lower()
+        if file_type not in AUDIO_FILE_TYPES:
+            return HttpResponse("Audio file must be WAV, MP3 or OGG")
 
             form_record.album = album
             form.save()
