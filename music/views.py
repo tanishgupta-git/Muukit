@@ -133,7 +133,7 @@ def AlbumCreate(request):
 
         return redirect('music:detail',pk=album.id)
 
-    return render(request,'music/album_form.html',{'form':form,'addalbumactive':True})
+    return render(request,'music/album_form.html',{'form':form,'addalbumactive':True,'pageheading':'Add New Album'})
 
 
 
@@ -142,7 +142,7 @@ def AlbumCreate(request):
 @login_required(login_url='music:login')
 def AlbumUpdate(request,pk):
     album = get_object_or_404(Album,id=pk)
-
+    
     form = AlbumForm(request.POST or None ,instance = album)
      
     if form.is_valid():
@@ -160,7 +160,7 @@ def AlbumUpdate(request,pk):
         form.save()
         return redirect('music:detail',pk=album.id)
 
-    return render(request, "music/album_form.html",{'form':form})
+    return render(request, "music/album_form.html",{'form':form,'pageheading':'Update Album','fill':True,'album':album})
 
 
 

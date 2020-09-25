@@ -7,10 +7,14 @@
             <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title">{{ album.album_title }}</h3>
-                <p class="card-text">{{album.artist}}</p>
+                <h5 class="card-text">{{album.artist}}</h5>
+                <p class="card-text my-3">{{album.genre}}</p>
+                <a href='{% url "music:album-update" album.id %}' type="" class="btn btn-info">Update Album</a>
             </div>
         </div>
     </div>
+
+
     <div class="col-md-8">
         <a href="{% url 'music:detail' album.id %}" class="btn btn-primary">View All</a>
         <a href="{% url 'music:add-song' album.id%}" class="btn btn-outline-primary">Add New Song</a>
