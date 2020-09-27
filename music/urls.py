@@ -10,10 +10,11 @@ urlpatterns = [
     path('songs/<userpreference>/',views.Songs,name='songs'),
     path('album/add', views.AlbumCreate, name='album-add'),
     path('album/<int:pk>/', views.AlbumUpdate, name='album-update'),
-    path('album/<int:pk>/delete', views.AlbumDelete, name='album-delete'),
-    path('album/<int:pk>/addsong', views.AddSong, name='add-song'),
-    path('album/<int:pk>/delete/<songTitle>', views.DeleteSong, name='delete-song'),
-    path('album/<int:pk>/<songTitle>/favorite/<page>', views.Favorite, name='favorite'),
-    path('album/<int:pk>/favorite',views.FavoriteAlbum,name='favorite-album'),
-    path('search/',views.search,name='search')
+    path('album/<int:pk>/delete/', views.AlbumDelete, name='album-delete'),
+    path('album/<int:pk>/addsong/', views.AddSong, name='add-song'),
+    path('album/<int:pk>/delete/<songTitle>/', views.DeleteSong, name='delete-song'),
+    path('album/<int:pk>/<songTitle>/favorite/<page>/', views.Favorite, name='favorite'),
+    path('album/<int:pk>/favorite/',views.FavoriteAlbum,name='favorite-album'),
+    path('search/',views.Search,name='search'),
+    path('song/search/',views.SearchSongs,name='search-songs')
 ] 

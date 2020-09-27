@@ -27,7 +27,7 @@
                         <i class="fas fa-compact-disc"></i>&nbsp;
                         Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item mr-2 {% if musicactive %}active{% endif %}">
+                <li class="nav-item mr-2 {% if songPage %}active{% endif %}">
                     <a class="nav-link" href="{% url 'music:songs' 'all' %}"><i class="fas fa-music"></i>&nbsp; Music</a>
                 </li>
                  <li class="nav-item mr-2 {% if addalbumactive %}active{% endif %}">
@@ -36,23 +36,27 @@
                 </li>
             </ul>
 
-            {% if searchAlbum %}
-            <form class="form-inline my-2 my-lg-0" action="{% url 'music:search' %}" method="get">
+          <!-- Search bar for album and song page only -->
+            {% if searchAlbum or songPage %}
+            <form class="form-inline my-2 my-lg-0" action="{% if searchAlbum %}{% url 'music:search' %} {% else %}{% url 'music:search-songs'%}{% endif %}" method="get">
                 <input class="form-control mr-sm-2" type="search" name='search' placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             {% endif %}
+            <!-- end of search bar for pages -->
 
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="{% url 'music:logout' %}"><i class="fas fa-power-off"></i>&nbsp; Logout</a>
                 </li>
             </ul>
+
         </div>
     </nav>
     <!-- End of Bootstrap Nav -->
     {% block body %}
     {% endblock%}
+
     <!-- Bootstrap js cdn -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

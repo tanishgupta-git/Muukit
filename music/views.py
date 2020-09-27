@@ -77,6 +77,17 @@ def searchQuery(query,album):
     # if not matches
     return False
 
+def searchSongquery(query,song,album):
+    # for checking album info
+    if query.lower() in album.album_title.lower() or query.lower() in album.artist.lower() or query.lower() in album.genre.lower():
+        return True
+    # for checking song info
+    if query in song.song_title:
+        return True
+    # if not matches
+    return False
+
+# End of the search functions
 
 # request for index page
 @login_required(login_url='music:login')
@@ -87,7 +98,7 @@ def index(request):
 
 # Search page 
 @login_required(login_url='music:login')
-def search(request):
+def Search(request):
     search = request.GET.get('search')
     albums = Album.objects.filter(user=request.user)
     searchalbums = []
@@ -98,7 +109,26 @@ def search(request):
     if not(len(searchalbums)):
         return render(request,'music/index.html',{'msg':True,'searchAlbum':True,'search':search,'homeactive':True})
 
-    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True,'homeactive':True}) 
+    return render(request,'music/index.html',{'albums':albums,'searchAlbum':True,'homeactive':True})
+
+@login_required(login_url='music:login')
+def SearchSongs(request):
+    search = request.GET.get('search')
+    albums = Album.objects.filter(user=request.user)
+    searchSongs = []
+    for album in albums:
+        for song in album.song_set.all():
+            if searchSongquery(search,song,album):
+                searchSongs.append(song)
+
+    if not(len(searchSongs)):
+        return render(request,'music/songs.html',{'msg':True,'search':search,'songPage':True})
+    
+    return render(request,'music/songs.html',{'songList':searchSongs,'songPage':True})
+
+# End of search page views
+
+
 
 
 # request for detail page
@@ -107,8 +137,6 @@ def detail(request,pk):
         user = request.user
         album = get_object_or_404(Album, pk=pk)
         return render(request,'music/detail.html',{'album':album})
-
-
 
 
 # For Album Create
@@ -259,4 +287,4 @@ def Songs(request,userpreference):
             for song in album.song_set.all():
                 songList.append(song)
 
-     return render(request,'music/songs.html',{'songList':songList,'musicactive':True})
+     return render(request,'music/songs.html',{'songList':songList,'songPage':True})
