@@ -192,14 +192,13 @@ def AddSong(request,pk):
                 if prevsong.song_title == form_record.song_title:
                     return HttpResponse("There is already a song exisitng with this song title")
 
-        file_type = song.audio_file.url.split('.')[-1]
+        file_type = form_record.audio_file.url.split('.')[-1]
         file_type = file_type.lower()
         if file_type not in AUDIO_FILE_TYPES:
             return HttpResponse("Audio file must be WAV, MP3 or OGG")
-
-            form_record.album = album
-            form.save()
-            return redirect('music:detail',pk=album.id) 
+        form_record.album = album
+        form.save()
+        return redirect('music:detail',pk=album.id) 
     
     return render(request,'music/song_form.html',{'form':form,'album':album})
 
