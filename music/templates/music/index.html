@@ -6,21 +6,21 @@
 <div class="container jumbotron mt-4">
    <h2>Your Collection Doesn't Match For "{{search}}"</h2>
    <ul class="list-group mt-4">
-  <li class="list-group-item">Try Alternate Words</li>
-  <li class="list-group-item">Check Your Spelling</li>
-  <li class="list-group-item">Use More Generic Words</li>
-  </ul>
+      <li class="list-group-item">Try Alternate Words</li>
+      <li class="list-group-item">Check Your Spelling</li>
+      <li class="list-group-item">Use More Generic Words</li>
+      </ul>
 </div>
 {% endif %}
 <!-- end  -->
-
+<div class="container">
 {% for album in albums %}
 
         {% if forloop.first %}
             <div class="row my-4 d-flex justify-content-around">
         {% endif %}
 
-        <div class="card col-sm-9 col-md-8 col-lg-3">
+        <div class="card col-sm-9 col-md-8 col-lg-5 col-xl-3">
             <img class="card-img-top" src="{{album.album_logo.url}}" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title">{{ album.album_title }}</h3>
@@ -33,13 +33,15 @@
                 <a href="{% url 'music:favorite-album' album.id%}" class="btn btn-outline-secondary"><i class="fas fa-star {% if album.is_favorite %}active{% endif %}"></i></a>
             </div>
         </div>
-         {% if forloop.counter|divisibleby:3%}
+         {% if forloop.counter|divisibleby:3 %}
            </div>
            {% if not forloop.last %} 
           <div class="row my-4 d-flex justify-content-around">
             {%endif%}
+          {% else %}
+         </div>
          {%endif%}
 
 {%endfor%}
-
+</div>
 {% endblock %}
