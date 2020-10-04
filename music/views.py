@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
+# For Starter Page
+def Start(request):
+    return render(request,'music/start.html')
 
 # For Login Form Page
 def UserLogin(request):
