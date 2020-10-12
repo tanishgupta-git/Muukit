@@ -1,0 +1,13 @@
+html,body{
+	background:#f1f3f8;
+}
+
+.navbar-brand{
+	font-family: 'Satisfy',cursive;
+}
+.fa-star{
+	color: #aaaaaa;
+}
+.fa-star.active{
+color:#ffa931;
+}
